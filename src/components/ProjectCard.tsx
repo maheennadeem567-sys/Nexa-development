@@ -23,7 +23,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       return (
         <div className="w-full h-[180px] relative overflow-hidden bg-[#0B1730]">
           <img
-            src="/Maheen Portfolio Workspace.png"
+          src="/assets/aistudio/maheen-portfolio-workspace.png"
             alt="Maheen Portfolio Workspace"
             className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
           />
