@@ -1,0 +1,1736 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #050817;
+    --bg-secondary: #0B1730;
+    --bg-card: #142238;
+    --accent-cyan: #00BFFF;
+    --text-main: #F5F7FF;
+    --text-muted: #A7B4C9;
+    --border-subtle: rgba(0, 191, 255, 0.15);
+    --border-hover: rgba(0, 191, 255, 0.45);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--text-main);
+    background-color: var(--bg-primary);
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  /* Focus visible accessibility */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid #00BFFF !important;
+    outline-offset: 2px !important;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Subtle cyan glow utility (max 0.35 opacity per spec) */
+.glow-cyan-hover:hover {
+  box-shadow: 0 0 24px rgba(0, 191, 255, 0.25);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 24px rgba(0, 191, 255, 0.25);
+}
+
+.card-shadow {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Scroll margin top for all target sections */
+.section-anchor {
+  scroll-margin-top: 72px;
+}
+
+/* Code editor typing animation utilities */
+@keyframes cursorBlink {
+  0%, 49.9% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+.animate-cursor-blink {
+  animation: cursorBlink 1s steps(1) infinite;
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up-fade {
+  animation: slideUpFade 400ms ease-out forwards;
+}
+
+/* Compiling dots loop (1.2s) */
+@keyframes dotSequence {
+  0%, 20% {
+    opacity: 0;
+  }
+  40%, 100% {
+    opacity: 1;
+  }
+}
+
+.animate-dot-1 {
+  animation: dotSequence 1.2s infinite;
+}
+
+.animate-dot-2 {
+  animation: dotSequence 1.2s 0.2s infinite;
+}
+
+.animate-dot-3 {
+  animation: dotSequence 1.2s 0.4s infinite;
+}
+
+/* Status dot pulse (1s loop, opacity 0.4 to 1) */
+@keyframes statusDotPulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-status-dot-pulse {
+  animation: statusDotPulse 1s ease-in-out infinite;
+}
+
+/* Success ring pulse (800ms) */
+@keyframes ringPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.animate-ring-pulse {
+  animation: ringPulse 800ms ease-out forwards;
+}
+
+/* Window top border glow sweep (900ms ease-out) */
+@keyframes borderSweep {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(250%);
+    opacity: 0;
+  }
+}
+
+.animate-border-sweep {
+  animation: borderSweep 900ms ease-out forwards;
+}
+
+/* Floating badge (translateY 0 to -5px, 4s ease-in-out infinite alternate) */
+@keyframes badgeFloat {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-badge-float {
+  animation: badgeFloat 4s ease-in-out infinite alternate;
+}
+
+/* Badge glow pulse (3s infinite) */
+@keyframes badgeGlowPulse {
+  0%, 100% {
+    box-shadow: 0 4px 16px rgba(0, 191, 255, 0.15);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(0, 191, 255, 0.35);
+  }
+}
+
+.animate-badge-glow {
+  animation: badgeGlowPulse 3s ease-in-out infinite;
+}
+
+/* Sparkle twinkle (2s infinite, scale 1 to 1.2, opacity 0.7 to 1) */
+@keyframes sparkleTwinkle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+.animate-sparkle {
+  animation: sparkleTwinkle 2s ease-in-out infinite;
+}
+
+/* =========================================================================
+   Hero Left Column Animation System (Unified & Defined Once)
+   ========================================================================= */
+
+/* Ambient Drifting Background Glow (12s slow drift) */
+@keyframes heroAmbientGlowDrift {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(30px, 20px);
+  }
+}
+
+.hero-ambient-glow {
+  animation: heroAmbientGlowDrift 12s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* 1. Top Badge Entrance: fade + translateY 12px to 0, 600ms at 0ms */
+@keyframes heroBadgeFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-badge-entrance {
+  animation: heroBadgeFadeIn 600ms cubic-bezier(0.22, 1, 0.36, 1) 0ms both;
+}
+
+/* Sparkle icon pop-in: starts at 200ms, scale 0.5 to 1, rotate -45deg to 0deg, 500ms */
+@keyframes heroSparklePopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-45deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.hero-sparkle-popin {
+  animation: heroSparklePopIn 500ms cubic-bezier(0.34, 1.56, 0.64, 1) 200ms both;
+}
+
+/* Top badge idle border glow pulse: 3s infinite alternate, starts after entrance (800ms) */
+@keyframes heroBadgeGlowPulse {
+  0% {
+    border-color: rgba(0, 191, 255, 0.2);
+    box-shadow: 0 0 0 rgba(0, 191, 255, 0);
+  }
+  100% {
+    border-color: rgba(0, 191, 255, 0.45);
+    box-shadow: 0 0 16px rgba(0, 191, 255, 0.25);
+  }
+}
+
+.animate-hero-badge-glow {
+  animation: heroBadgeGlowPulse 3s ease-in-out 800ms infinite alternate;
+}
+
+/* Sparkle icon idle twinkle: scale 1 to 1.15, opacity 0.75 to 1, 2.4s infinite alternate, starts at 800ms */
+@keyframes heroSparkleTwinkle {
+  0% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+.animate-hero-sparkle {
+  animation: heroSparkleTwinkle 2.4s ease-in-out 800ms infinite alternate;
+}
+
+.hero-agency-badge {
+  cursor: default;
+  transition: transform 200ms ease, border-color 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
+}
+
+@media (hover: hover) {
+  .hero-agency-badge:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0, 191, 255, 0.6) !important;
+    background-color: rgba(0, 191, 255, 0.08) !important;
+  }
+}
+
+/* Hero Word Slide Up & Innovative Shimmer Animations */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes heroWordSlideUpCustom {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes heroInnovativeShimmer {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .animate-hero-word-slide {
+    animation: heroWordSlideUpCustom 0.8s ease-out both;
+  }
+
+  .animate-hero-innovative-shimmer {
+    background: linear-gradient(90deg, #00BFFF, #7EE7FC, #00BFFF);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    animation: heroWordSlideUpCustom 0.8s ease-out both, heroInnovativeShimmer 3s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-word-slide {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .animate-hero-innovative-shimmer {
+    color: #00BFFF;
+    background: none;
+    -webkit-text-fill-color: #00BFFF;
+    background-clip: border-box;
+  }
+}
+
+/* 3. Description: fade + translateY 16px to 0, 600ms at 600ms */
+@keyframes heroDescFadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-desc-entrance {
+  animation: heroDescFadeSlideUp 600ms cubic-bezier(0.22, 1, 0.36, 1) 600ms both;
+}
+
+/* 4. Buttons: fade + translateY 14px to 0, 600ms */
+@keyframes btnFadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-entrance {
+  animation: btnFadeSlideUp 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes btnRipple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+.animate-btn-ripple {
+  animation: btnRipple 500ms ease-out forwards;
+}
+
+@keyframes btnShineSweep {
+  0% {
+    transform: translateX(-120px) skewX(-20deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(360px) skewX(-20deg);
+    opacity: 0;
+  }
+}
+
+@keyframes arrowNudge {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+}
+
+.animate-arrow-nudge {
+  animation: arrowNudge 500ms ease-in-out;
+}
+
+/* Button variants and interaction classes */
+.btn-animated {
+  position: relative;
+  overflow: hidden;
+  transition: transform 200ms ease, box-shadow 200ms ease, background-color 200ms ease, border-color 200ms ease;
+}
+
+.btn-animated:active {
+  transform: scale(0.97) !important;
+  transition-duration: 100ms !important;
+}
+
+.btn-primary {
+  background-color: #00BFFF;
+  color: #050817;
+  border: 1px solid transparent;
+}
+
+.btn-primary:active {
+  box-shadow: 0 0 10px rgba(0, 191, 255, 0.2) !important;
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid #00BFFF !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 24px rgba(0, 191, 255, 0.35);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: #00BFFF;
+  border: 1px solid rgba(0, 191, 255, 0.35);
+}
+
+.btn-outline:focus-visible {
+  outline: 2px solid #00BFFF !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 16px rgba(0, 191, 255, 0.2);
+}
+
+.btn-icon-arrow {
+  transition: transform 200ms ease;
+}
+
+@media (hover: hover) {
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 24px rgba(0, 191, 255, 0.35);
+  }
+  .btn-primary:hover .btn-icon-arrow {
+    transform: translateX(4px);
+  }
+  .btn-primary:hover .btn-shine {
+    animation: btnShineSweep 700ms ease-out forwards;
+  }
+  .btn-outline:hover {
+    transform: translateY(-2px);
+    background-color: rgba(0, 191, 255, 0.08);
+    border-color: rgba(0, 191, 255, 0.7);
+    box-shadow: 0 0 16px rgba(0, 191, 255, 0.2);
+  }
+}
+
+/* 5. "CORE TECHNOLOGIES & FRAMEWORKS" label: fade only, 500ms at 960ms */
+@keyframes heroFadeOnly {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.hero-label-entrance {
+  animation: heroFadeOnly 500ms cubic-bezier(0.22, 1, 0.36, 1) 960ms both;
+}
+
+/* 6. Technology Badge Animations & Interactions */
+:root {
+  --hover-duration: 200ms;
+  --shine-duration: 600ms;
+}
+
+@keyframes techBadgeEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.tech-badge-entrance {
+  animation: techBadgeEntrance 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes techBadgeWave {
+  0% {
+    border-color: rgba(0, 191, 255, 0.2);
+    box-shadow: 0 0 0 rgba(0, 191, 255, 0);
+  }
+  3.75% {
+    border-color: rgba(0, 191, 255, 0.4);
+    box-shadow: 0 0 10px rgba(0, 191, 255, 0.15);
+  }
+  7.5% {
+    border-color: rgba(0, 191, 255, 0.2);
+    box-shadow: 0 0 0 rgba(0, 191, 255, 0);
+  }
+  100% {
+    border-color: rgba(0, 191, 255, 0.2);
+    box-shadow: 0 0 0 rgba(0, 191, 255, 0);
+  }
+}
+
+.tech-badge-item {
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--hover-duration) ease,
+              border-color var(--hover-duration) ease,
+              color var(--hover-duration) ease,
+              box-shadow var(--hover-duration) ease,
+              background-color var(--hover-duration) ease,
+              opacity var(--hover-duration) ease;
+  animation: techBadgeWave 8000ms ease-in-out calc(2000ms + var(--i, 0) * 90ms) infinite;
+}
+
+/* Pause the idle wave while any badge in the list is hovered */
+.tech-badges-list:hover .tech-badge-item {
+  animation-play-state: paused;
+}
+
+/* Neighbor effect: when one badge is hovered, other badges dim to 0.7 opacity */
+@media (hover: hover) {
+  .tech-badges-list:has(.tech-badge-item:hover) .tech-badge-item:not(:hover) {
+    opacity: 0.7;
+  }
+
+  .tech-badge-item:hover {
+    transform: translateY(-3px);
+    border-color: rgba(0, 191, 255, 0.6) !important;
+    color: #00BFFF !important;
+    box-shadow: 0 0 14px rgba(0, 191, 255, 0.25) !important;
+    background-color: rgba(0, 191, 255, 0.08) !important;
+  }
+
+  .tech-badge-item:hover .tech-badge-dot {
+    opacity: 1;
+  }
+
+  .tech-badge-item:hover .tech-badge-text {
+    transform: translateX(6px);
+  }
+
+  .tech-badge-item:hover .tech-badge-shine {
+    animation: techBadgeShine var(--shine-duration) ease-out forwards;
+  }
+}
+
+/* 6px colored dot positioned absolutely 10px from the left border, vertically centered */
+.tech-badge-dot {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: var(--dot, #00BFFF);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--hover-duration) ease;
+}
+
+/* Text centered at rest, slides 6px right on hover */
+.tech-badge-text {
+  display: inline-block;
+  transform: translateX(0);
+  transition: transform var(--hover-duration) ease, color var(--hover-duration) ease;
+  color: #F5F7FF;
+}
+
+/* 30px wide soft light diagonal shine passing across on hover */
+.tech-badge-shine {
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 30px;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(0, 191, 255, 0.18), transparent);
+  transform: translateX(-50px) skewX(-20deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes techBadgeShine {
+  0% {
+    transform: translateX(-50px) skewX(-20deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(180px) skewX(-20deg);
+    opacity: 0;
+  }
+}
+
+/* Touch devices (hover: none) */
+@media (hover: none) {
+  .btn-primary:hover,
+  .btn-outline:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .btn-primary:hover .btn-icon-arrow {
+    transform: none !important;
+  }
+  .btn-primary:hover .btn-shine {
+    display: none !important;
+  }
+  .tech-badge-item:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    border-color: rgba(0, 191, 255, 0.2) !important;
+    color: #F5F7FF !important;
+    background-color: transparent !important;
+  }
+  .tech-badge-item:hover .tech-badge-dot {
+    opacity: 0 !important;
+  }
+  .tech-badge-item:hover .tech-badge-text {
+    transform: none !important;
+  }
+  .tech-badge-item:hover .tech-badge-shine {
+    display: none !important;
+  }
+  .tech-badges-list:has(.tech-badge-item:hover) .tech-badge-item:not(:hover) {
+    opacity: 1 !important;
+  }
+}
+
+.tech-badge-item:active {
+  transform: scale(0.96) !important;
+  transition-duration: 100ms !important;
+}
+
+/* Code Editor Window entrance: fade + translateY 20px to 0, 700ms at 300ms */
+@keyframes codeWindowEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.code-window-entrance {
+  animation: codeWindowEntrance 700ms cubic-bezier(0.22, 1, 0.36, 1) 300ms both;
+}
+
+/* Floating Technology Tiles */
+@keyframes tileEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.floating-tile-outer {
+  animation: tileEntrance 500ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes tileFloat {
+  0% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  100% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+.floating-tile-inner {
+  animation: tileFloat 5s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@media (hover: hover) {
+  .floating-tile-inner:hover {
+    transform: translateY(-4px) !important;
+  }
+  .floating-tile-inner:hover .floating-tile-card {
+    border-color: rgba(0, 191, 255, 0.55) !important;
+  }
+}
+
+@media (hover: none) {
+  .floating-tile-inner:hover {
+    transform: none !important;
+  }
+  .floating-tile-inner:hover .floating-tile-card {
+    border-color: rgba(0, 191, 255, 0.18) !important;
+  }
+}
+
+/* Scroll-Down Indicator */
+@keyframes scrollDotMove {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(8px);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+}
+
+.scroll-indicator-dot {
+  animation: scrollDotMove 1.6s ease-in-out infinite;
+}
+
+@keyframes scrollIndicatorFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.scroll-indicator-wrapper {
+  animation: scrollIndicatorFadeIn 600ms cubic-bezier(0.22, 1, 0.36, 1) 1800ms both;
+}
+
+/* Hide scroll indicator on screens shorter than 760px */
+@media (max-height: 759px) {
+  .scroll-indicator-wrapper {
+    display: none !important;
+  }
+}
+
+/* Pause infinite animations when hero is off-screen or tab is hidden */
+.hero-animations-paused .hero-ambient-glow,
+.hero-animations-paused .floating-tile-inner,
+.hero-animations-paused .scroll-indicator-dot,
+.hero-animations-paused .animate-hero-sparkle,
+.hero-animations-paused .animate-hero-badge-glow,
+.hero-animations-paused .tech-badge-item {
+  animation-play-state: paused !important;
+}
+
+/* Reduced motion preference overrides */
+@media (prefers-reduced-motion: reduce) {
+  .hero-ambient-glow,
+  .hero-badge-entrance,
+  .hero-sparkle-popin,
+  .animate-hero-badge-glow,
+  .animate-hero-sparkle,
+  .hero-word-reveal,
+  .hero-desc-entrance,
+  .btn-entrance,
+  .hero-label-entrance,
+  .tech-badge-entrance,
+  .tech-badge-item,
+  .animate-btn-ripple,
+  .animate-arrow-nudge,
+  .code-window-entrance,
+  .floating-tile-outer,
+  .floating-tile-inner,
+  .scroll-indicator-wrapper,
+  .scroll-indicator-dot {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .hero-shine-text {
+    background: none !important;
+    -webkit-text-fill-color: #00BFFF !important;
+    color: #00BFFF !important;
+    animation: none !important;
+  }
+  .hero-agency-badge:hover,
+  .tech-badge-item:hover,
+  .tech-badge-item:active,
+  .btn-animated:hover,
+  .btn-animated:active,
+  .floating-tile-inner:hover {
+    transform: none !important;
+  }
+  .tech-badge-text {
+    transform: none !important;
+  }
+  .tech-badge-shine,
+  .btn-shine {
+    display: none !important;
+  }
+  .btn-icon-arrow {
+    transform: none !important;
+  }
+
+  /* Logo reduced motion */
+  .logo-icon-box,
+  .logo-icon-box-animated,
+  .logo-bracket-left,
+  .logo-bracket-right,
+  .logo-bracket-left-animated,
+  .logo-bracket-right-animated,
+  .logo-slash,
+  .logo-slash-animated,
+  .logo-word-first-animated,
+  .logo-word-second-animated,
+  .logo-cyan-shine-once,
+  .logo-link,
+  .logo-scaler {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    transition: border-color 200ms ease, color 200ms ease !important;
+  }
+  .logo-cyan-word,
+  .logo-cyan-shine-once {
+    background: none !important;
+    -webkit-text-fill-color: #00BFFF !important;
+    color: #00BFFF !important;
+    animation: none !important;
+  }
+}
+
+/* =========================================================================
+   Navbar & Footer Logo Animation System
+   ========================================================================= */
+
+:root {
+  --logo-entrance-duration: 600ms;
+  --logo-hover-duration: 250ms;
+  --logo-hover-shine-duration: 600ms;
+}
+
+/* 1. Icon Box Entrance: scale 0.6 -> 1, rotate -90deg -> 0deg, 600ms, cubic-bezier(0.34, 1.56, 0.64, 1) */
+@keyframes logoIconEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.6) rotate(-90deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* 2. Idle Border Glow Pulse on Icon Box: border rgba(0,191,255,0.2) to rgba(0,191,255,0.45) & box-shadow 0 0 12px rgba(0,191,255,0.2) */
+@keyframes logoIconPulse {
+  0% {
+    border-color: rgba(0, 191, 255, 0.2);
+    box-shadow: 0 0 0 rgba(0, 191, 255, 0);
+  }
+  100% {
+    border-color: rgba(0, 191, 255, 0.45);
+    box-shadow: 0 0 12px rgba(0, 191, 255, 0.2);
+  }
+}
+
+.logo-icon-box-animated {
+  animation: logoIconEntrance 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 0ms both,
+             logoIconPulse 3000ms ease-in-out 1000ms infinite alternate;
+}
+
+/* 3. Brackets < and > Entrance */
+@keyframes logoBracketLeftEntrance {
+  0% {
+    opacity: 0;
+    transform: translateX(2px);
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes logoBracketRightEntrance {
+  0% {
+    opacity: 0;
+    transform: translateX(-2px);
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes logoSlashEntrance {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Bracket Idle Nudge: every 6s, < and > move slightly apart and back (translateX -2px / 2px, 500ms ease-in-out) */
+@keyframes logoBracketLeftNudge {
+  0%, 91.67% {
+    transform: translateX(0);
+  }
+  95.83% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes logoBracketRightNudge {
+  0%, 91.67% {
+    transform: translateX(0);
+  }
+  95.83% {
+    transform: translateX(2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.logo-bracket-left {
+  transition: transform var(--logo-hover-duration) ease;
+}
+
+.logo-bracket-right {
+  transition: transform var(--logo-hover-duration) ease;
+}
+
+.logo-bracket-left-animated {
+  animation: logoBracketLeftEntrance 400ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both,
+             logoBracketLeftNudge 6000ms ease-in-out 1600ms infinite;
+}
+
+.logo-bracket-right-animated {
+  animation: logoBracketRightEntrance 400ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both,
+             logoBracketRightNudge 6000ms ease-in-out 1600ms infinite;
+}
+
+.logo-slash-animated {
+  animation: logoSlashEntrance 200ms ease 400ms both;
+}
+
+/* 4. Brand Text Entrance */
+@keyframes logoWordSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.logo-word-first-animated {
+  animation: logoWordSlide 500ms cubic-bezier(0.22, 1, 0.36, 1) 250ms both;
+}
+
+.logo-word-second-animated {
+  animation: logoWordSlide 500ms cubic-bezier(0.22, 1, 0.36, 1) 350ms both;
+}
+
+/* 5. One-Time Shine on Cyan Word (starts at 1000ms, 900ms duration, max rgba(255,255,255,0.4)) */
+@keyframes logoWordShineOnce {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.logo-cyan-shine-once {
+  background: linear-gradient(
+    115deg,
+    #00BFFF 0%,
+    #00BFFF 38%,
+    rgba(255, 255, 255, 0.4) 50%,
+    #00BFFF 62%,
+    #00BFFF 100%
+  );
+  background-size: 250% 100%;
+  background-position: 200% 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #00BFFF;
+  animation: logoWordShineOnce 900ms cubic-bezier(0.22, 1, 0.36, 1) 1000ms 1 forwards;
+}
+
+/* Hover shine sweep on cyan word */
+@keyframes logoWordShineHover {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Hover and Focus Interactions */
+@media (hover: hover) and (pointer: fine) {
+  /* Pause nudge while hovered */
+  .logo-link:hover .logo-bracket-left-animated,
+  .logo-link:hover .logo-bracket-right-animated {
+    animation-play-state: paused;
+  }
+
+  /* Hover icon box: lifts translateY(-2px) and rotates 8deg (250ms ease), border brightens to rgba(0,191,255,0.7), glow 0 0 16px rgba(0,191,255,0.3) */
+  .logo-link:hover .logo-icon-box {
+    transform: translateY(-2px) rotate(8deg);
+    border-color: rgba(0, 191, 255, 0.7) !important;
+    box-shadow: 0 0 16px rgba(0, 191, 255, 0.3) !important;
+  }
+
+  /* < and > move apart by 3px */
+  .logo-link:hover .logo-bracket-left {
+    transform: translateX(-3px) !important;
+  }
+
+  .logo-link:hover .logo-bracket-right {
+    transform: translateX(3px) !important;
+  }
+
+  /* Quick shine sweep on cyan word (600ms) */
+  .logo-link:hover .logo-cyan-word {
+    background: linear-gradient(
+      115deg,
+      #00BFFF 0%,
+      #00BFFF 38%,
+      rgba(255, 255, 255, 0.4) 50%,
+      #00BFFF 62%,
+      #00BFFF 100%
+    );
+    background-size: 250% 100%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: logoWordShineHover 600ms cubic-bezier(0.22, 1, 0.36, 1) 1 forwards;
+  }
+}
+
+/* Press state: scale 0.97, 100ms */
+.logo-link:active {
+  transform: scale(0.97);
+  transition: transform 100ms ease;
+}
+
+/* Keyboard focus-visible: same glow as hover plus 2px cyan outline with 2px offset */
+.logo-link:focus-visible {
+  outline: 2px solid #00BFFF !important;
+  outline-offset: 2px !important;
+}
+
+.logo-link:focus-visible .logo-icon-box {
+  border-color: rgba(0, 191, 255, 0.7) !important;
+  box-shadow: 0 0 16px rgba(0, 191, 255, 0.3) !important;
+}
+
+/* =========================================================================
+   Services Section Animation & Layout System
+   ========================================================================= */
+
+@keyframes serviceCardEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes serviceIconPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes serviceTopLineGrow {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes serviceShineSweep {
+  0% {
+    transform: translateX(-100%) rotate(25deg);
+  }
+  100% {
+    transform: translateX(200%) rotate(25deg);
+  }
+}
+
+/* Icon animations on card hover */
+@keyframes globeSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes phoneWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-8deg); }
+  75% { transform: rotate(8deg); }
+}
+
+@keyframes layoutScale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+@keyframes cartBounce {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+
+@keyframes bracketsSpread {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(2.5px); }
+}
+
+@keyframes sparklesPop {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(15deg); }
+}
+
+.service-card-entrance {
+  animation: serviceCardEntrance 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.service-icon-pop {
+  animation: serviceIconPop 400ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Neighbor dimming: while one service card is hovered, other cards fade to opacity 0.85 */
+@media (hover: hover) and (pointer: fine) {
+  .services-grid:has(.service-card:hover) .service-card:not(:hover) {
+    opacity: 0.85;
+    transition: opacity 250ms ease;
+  }
+
+  .service-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0, 191, 255, 0.5) !important;
+    box-shadow: 0 0 24px rgba(0, 191, 255, 0.2), 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  .service-card:hover .service-top-line {
+    transform: scaleX(1);
+  }
+
+  .service-card:hover .service-shine {
+    animation: serviceShineSweep 700ms ease-out forwards;
+  }
+
+  .service-card:hover .service-icon-box {
+    background-color: rgba(0, 191, 255, 0.18) !important;
+    border-color: rgba(0, 191, 255, 0.45) !important;
+  }
+
+  .service-card:hover .service-link-arrow {
+    transform: translateX(4px);
+  }
+
+  .service-card:hover .service-link-underline {
+    transform: scaleX(1);
+  }
+
+  /* Specific Icon animations */
+  .service-card:hover .service-icon-globe {
+    animation: globeSpin 800ms linear infinite;
+  }
+  .service-card:hover .service-icon-phone {
+    animation: phoneWiggle 600ms ease-in-out 1;
+  }
+  .service-card:hover .service-icon-layout {
+    animation: layoutScale 500ms ease-in-out 1;
+  }
+  .service-card:hover .service-icon-cart {
+    animation: cartBounce 600ms ease-in-out 1;
+  }
+  .service-card:hover .service-icon-code {
+    animation: bracketsSpread 600ms ease-in-out 1;
+  }
+  .service-card:hover .service-icon-sparkles {
+    animation: sparklesPop 600ms ease-in-out 1;
+  }
+}
+
+/* Focus within on card */
+.service-card:focus-within {
+  transform: translateY(-6px);
+  border-color: rgba(0, 191, 255, 0.5);
+  box-shadow: 0 0 24px rgba(0, 191, 255, 0.2), 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.service-card:focus-within .service-top-line {
+  transform: scaleX(1);
+}
+
+/* Link active press feedback */
+.service-link:active {
+  transform: scale(0.97);
+  transition: transform 100ms ease;
+}
+
+/* Reduced motion overrides for services */
+@media (prefers-reduced-motion: reduce) {
+  .service-card-entrance,
+  .service-icon-pop,
+  .service-top-line,
+  .service-shine,
+  .service-card:hover,
+  .service-card:focus-within {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .services-grid:has(.service-card:hover) .service-card:not(:hover) {
+    opacity: 1 !important;
+  }
+  .service-shine {
+    display: none !important;
+  }
+}
+
+/* =========================================================================
+   Section Badge Pills Animation System (All 5 Section Badges)
+   ========================================================================= */
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes sectionBadgeEntrance {
+    0% {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes sectionBadgeBorderGlow {
+    0% {
+      border-color: rgba(0, 191, 255, 0.2);
+      box-shadow: 0 0 0 rgba(0, 191, 255, 0);
+    }
+    100% {
+      border-color: rgba(0, 191, 255, 0.55);
+      box-shadow: 0 0 16px rgba(0, 191, 255, 0.3);
+    }
+  }
+
+  @keyframes sectionBadgeLightSweep {
+    0% {
+      left: -60%;
+    }
+    100% {
+      left: 160%;
+    }
+  }
+
+  @keyframes sectionBadgeDotPulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    100% {
+      transform: scale(2.6);
+      opacity: 0;
+    }
+  }
+
+  .section-badge-pill {
+    position: relative;
+    overflow: hidden;
+    animation: sectionBadgeEntrance 0.6s cubic-bezier(0.22, 1, 0.36, 1) both, sectionBadgeBorderGlow 3s ease-in-out infinite alternate;
+  }
+
+  .section-badge-pill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40%;
+    left: -60%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), rgba(0, 191, 255, 0.2), transparent);
+    transform: skewX(-20deg);
+    animation: sectionBadgeLightSweep 3.5s linear infinite;
+    pointer-events: none;
+  }
+
+  .section-badge-dot {
+    position: relative;
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background-color: #00BFFF;
+  }
+
+  .section-badge-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background-color: #00BFFF;
+    opacity: 0.6;
+    animation: sectionBadgeDotPulse 2s ease-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-badge-pill {
+    opacity: 1;
+    transform: translateY(0);
+    border-color: rgba(0, 191, 255, 0.25);
+    box-shadow: none;
+  }
+  .section-badge-pill::after {
+    display: none;
+  }
+  .section-badge-dot {
+    position: relative;
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background-color: #00BFFF;
+  }
+  .section-badge-dot::after {
+    display: none;
+  }
+}
+
+/* =========================================================================
+   Engineering Excellence (Why Choose Us) Feature Cards Animation System
+   ========================================================================= */
+
+.why-us-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+@media (min-width: 641px) {
+  .why-us-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1025px) {
+  .why-us-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes featureCardEntrance {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes iconFloat {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+
+  @keyframes featureLightSweep {
+    0% {
+      left: -60%;
+    }
+    100% {
+      left: 160%;
+    }
+  }
+
+  .feature-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #142238;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid rgba(0, 191, 255, 0.15);
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .why-us-grid.is-visible .feature-card {
+    animation: featureCardEntrance 0.7s cubic-bezier(0, 0, 0.2, 1) forwards;
+  }
+
+  .why-us-grid.is-visible .feature-card:nth-child(1) { animation-delay: 0s; }
+  .why-us-grid.is-visible .feature-card:nth-child(2) { animation-delay: 0.12s; }
+  .why-us-grid.is-visible .feature-card:nth-child(3) { animation-delay: 0.24s; }
+  .why-us-grid.is-visible .feature-card:nth-child(4) { animation-delay: 0.36s; }
+
+  .feature-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(0, 191, 255, 0.5);
+    box-shadow: 0 12px 30px rgba(0, 180, 255, 0.18);
+  }
+
+  /* Top accent line */
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00BFFF, transparent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+    z-index: 2;
+  }
+  .feature-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  /* Light sweep */
+  .feature-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    left: -60%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), rgba(0, 191, 255, 0.15), transparent);
+    transform: skewX(-20deg);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.2s ease;
+  }
+  .feature-card:hover::after {
+    opacity: 1;
+    animation: featureLightSweep 0.6s ease-out forwards;
+  }
+
+  .feature-icon-box {
+    animation: iconFloat 3s ease-in-out infinite;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .feature-card:hover .feature-icon-box {
+    transform: scale(1.1) rotate(6deg) translateY(-4px);
+    background-color: rgba(0, 191, 255, 0.2);
+    box-shadow: 0 0 16px rgba(0, 191, 255, 0.3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feature-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #142238;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid rgba(0, 191, 255, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .feature-card::before,
+  .feature-card::after {
+    display: none !important;
+  }
+  .feature-icon-box {
+    animation: none !important;
+  }
+}
+
+/* =========================================================================
+   Contact Section 3 Cards Animation System
+   ========================================================================= */
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes contactCardEntrance {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes contactIconFloat {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+
+  @keyframes contactLightSweep {
+    0% {
+      left: -60%;
+    }
+    100% {
+      left: 160%;
+    }
+  }
+
+  .contact-cards-grid.is-visible .contact-card {
+    animation: contactCardEntrance 0.7s cubic-bezier(0, 0, 0.2, 1) forwards;
+  }
+
+  .contact-cards-grid.is-visible .contact-card:nth-child(1) { animation-delay: 0s; }
+  .contact-cards-grid.is-visible .contact-card:nth-child(2) { animation-delay: 0.15s; }
+  .contact-cards-grid.is-visible .contact-card:nth-child(3) { animation-delay: 0.3s; }
+
+  .contact-card {
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .contact-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(0, 191, 255, 0.5);
+    box-shadow: 0 12px 30px rgba(0, 180, 255, 0.18);
+  }
+
+  /* Top accent line */
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00BFFF, transparent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+    z-index: 2;
+  }
+  .contact-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  /* Light sweep */
+  .contact-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    left: -60%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), rgba(0, 191, 255, 0.15), transparent);
+    transform: skewX(-20deg);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.2s ease;
+  }
+  .contact-card:hover::after {
+    opacity: 1;
+    animation: contactLightSweep 0.6s ease-out forwards;
+  }
+
+  .contact-icon-box {
+    animation: contactIconFloat 3s ease-in-out infinite;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .contact-card:hover .contact-icon-box {
+    transform: scale(1.1) rotate(6deg) translateY(-4px);
+    box-shadow: 0 0 16px rgba(0, 191, 255, 0.3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-card {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .contact-card::before,
+  .contact-card::after {
+    display: none !important;
+  }
+  .contact-icon-box {
+    animation: none !important;
+  }
+}
+
+/* =========================================================================
+   Mobile & Tablet Clean Optimization (< 1024px)
+   Hides decorative background floaters, light sweeps, and heavy glow loops on mobile & tablet.
+   Laptop/Desktop (1024px and above) stays 100% active exactly as designed.
+   ========================================================================= */
+
+@media (max-width: 1023px) {
+  /* Hide decorative pseudo-element shine sweeps & top accent lines */
+  .section-badge-pill::after,
+  .feature-card::after,
+  .feature-card::before,
+  .contact-card::after,
+  .contact-card::before,
+  .hero-shine-text {
+    display: none !important;
+  }
+
+  /* Disable continuous floating & pulsing animations on mobile/tablet */
+  .feature-icon-box,
+  .contact-icon-box,
+  .section-badge-dot::after,
+  .animate-hero-badge-glow,
+  .animate-hero-sparkle,
+  .hero-ambient-glow {
+    animation: none !important;
+  }
+
+  /* Simplify section badge pills on mobile/tablet */
+  .section-badge-pill {
+    animation: none !important;
+    border-color: rgba(0, 191, 255, 0.25) !important;
+    box-shadow: none !important;
+  }
+
+  /* Keep cards simple and static on mobile/tablet */
+  .contact-card,
+  .feature-card {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+
+
+
