@@ -6,7 +6,9 @@
 
 [🌐 Live Demo](https://nexadevelopment.netlify.app/)
 
-![Banner](./screenshots/banner.png)
+<img width="1804" height="872" alt="Banner" src="https://github.com/user-attachments/assets/ab99cfdd-69dc-4e09-9eb7-6c1ba4e09c69" />
+
+
 
 </div>
 
